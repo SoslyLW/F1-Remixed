@@ -1,5 +1,7 @@
 import csv
-#import pandas as pd
+from itertools import combinations
+# import pandas as pd
+# from operator import itemgetter
 
 """
 Classes needed:
@@ -18,6 +20,9 @@ class Driver:
             print(', ' + str(finish), end='')
         print()
 
+    def getPointsFromRaceIndex(self, index):
+        return pointsArray[index]
+
 class Race:
     def __init__(self, calendarPosition):
         self.calendarPosition = calendarPosition
@@ -28,6 +33,31 @@ class Race:
         for finisher in self.finisherNames:
             print(finisher + ', ', end='')
         print()
+
+class Season:
+    def __init__(self, drivers, races):
+        self.races = []
+        self.champ = ''
+        self.standings = []
+        self.drivers = drivers.copy()
+        self.driverPoints = []
+    
+    def importStandingsPoints(self, drivers):
+        for race in races:
+            for finisher in race.finisherNames:
+                for driver in drivers.name:
+                    if finisher == driver:
+                        driverPointsTotal = driver.getPointsFromRaceIndex(race.calendarposition)
+                        i = 0
+                        for names in driverPoints:
+                            if names[0] == driver.name:
+                                driverPoints[i] += driverPointsTotal
+                                break
+                            i += 1
+                        driverPoints.append((driver, driverPointsTotal))
+
+                        
+
 
 spreadsheetData = open("ChrisFuchsData.csv")
 
@@ -76,8 +106,21 @@ for event in range(len(spreadsheetData.readline().split(',')) - 3):
     races.append(raceObject)
     del raceObject
     
+"""
 for race in races:
     race.printRaceResults()
+"""
+
+possibleSeasonCombinations = []
+
+for x in range(1, len(races) + 1):
+    xLengthSeasons = list(combinations(races, x))
+
+    # xLengthSeasons[0][0].printRaceResults()
+    possibleSeasonCombinations.extend(xLengthSeasons)
+    # break
+
+print(len(possibleSeasonCombinations))
 
 # print(drivers[0].name)
 
