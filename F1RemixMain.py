@@ -145,9 +145,10 @@ class Season:
 
         for comboName in brokenNames:
             for driver in self.drivers:
-                if comboName == driver.name:
+                if comboName.strip() == driver.name.strip():
                     return driver
 
+        print('no driver found')
         return -1
 
         
