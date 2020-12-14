@@ -175,13 +175,13 @@ class SeasonDB:
 
     def printResults(self):
         for driver in self.champDict.items():
-            print(driver[0] + ' ' + str(str(driver[1]) + ' Pct: ' + str(driver[1]/len(seasons))))
+            print(driver[0] + ' ' + str(str(driver[1]) + ' Pct: ' + str(round(driver[1]*100.0/len(seasons), 3))))
 
     def printResultsToFile(self, filename):
         f = open(filename, 'w')
 
         for driver in self.champDict.items():
-            f.write(driver[0] + ' ' + str(str(driver[1]) + ' Pct: ' + str(driver[1]/len(seasons))))
+            f.write(driver[0] + ' ' + str(str(driver[1]) + ' Pct: ' + str(round(driver[1]*100.0/len(seasons), 3))))
         
         f.close()
 
@@ -248,9 +248,6 @@ for x in range(1, len(races) + 1):
     for combo in xLengthSeasons:
         seasons.append(Season(drivers, list(combo)))
 
-# for combo in possibleSeasonCombinations:
-#     seasons.append(Season(drivers, list(combo)))
-
 print(len(seasons))
 
 print('Starting Databasing')
@@ -259,26 +256,3 @@ database = SeasonDB(seasons, drivers)
 print('Printing Results \n')
 database.printResults()
 database.printResultsToFile('results.txt')
-
-# print(drivers[0].name)
-
-# for driver in drivers:
-#     driver.printDriver()
-
-# races[1].printRaceResults()
-
-# for race in races:
-#     race.printRaceResults()
-
-#print(spreadsheetData.readlines())
-
-# for driver in drivers:
-#      driver.printDriver()
-
-#print(drivers[1].pointsArray[1])
-
-"""
-for line in spreadsheetData.readlines():
-    for col in line.split(","):
-        print(col)
-"""
