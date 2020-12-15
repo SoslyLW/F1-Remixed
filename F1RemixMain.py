@@ -1,6 +1,9 @@
 import csv
+import random
 from itertools import combinations
+import time
 
+### Classes
 class Driver:
     def __init__(self, name):
         self.name = name
@@ -61,7 +64,7 @@ class Season:
             elif pointTotal[1] == highestpoints:
                 champName = self.tiebreak(self.findDriverByName(champName), self.findDriverByName(pointTotal[0]))
 
-        self.champ = champName
+        self.champ = self.findDriverByName(champName).name
 
     def tiebreak(self, driver1, driver2):
         ### Note: tiebreak only accounts for top ten finishes, not any finishes
@@ -74,50 +77,18 @@ class Season:
             driver1count[x] = 0
             driver2count[x] = 0
 
+        # Find number of each finishing positions for each driver
         for finish in self.races:
-            if finish.finisherNames[0] == driver1.name:
-                driver1count[0] += 1
-            if finish.finisherNames[1] == driver1.name:
-                driver1count[1] += 1
-            if finish.finisherNames[2] == driver1.name:
-                driver1count[2] += 1
-            if finish.finisherNames[3] == driver1.name:
-                driver1count[3] += 1
-            if finish.finisherNames[4] == driver1.name:
-                driver1count[4] += 1
-            if finish.finisherNames[5] == driver1.name:
-                driver1count[5] += 1
-            if finish.finisherNames[6] == driver1.name:
-                driver1count[6] += 1
-            if finish.finisherNames[7] == driver1.name:
-                driver1count[7] += 1
-            if finish.finisherNames[8] == driver1.name:
-                driver1count[8] += 1
-            if finish.finisherNames[9] == driver1.name:
-                driver1count[9] += 1
+            for x in range(10):
+                if finish.finisherNames[x] == driver1.name:
+                    driver1count[x] += 1
                 
         for finish in self.races:
-            if finish.finisherNames[0] == driver2.name:
-                driver2count[0] += 1
-            if finish.finisherNames[1] == driver2.name:
-                driver2count[1] += 1
-            if finish.finisherNames[2] == driver2.name:
-                driver2count[2] += 1
-            if finish.finisherNames[3] == driver2.name:
-                driver2count[3] += 1
-            if finish.finisherNames[4] == driver2.name:
-                driver2count[4] += 1
-            if finish.finisherNames[5] == driver2.name:
-                driver2count[5] += 1
-            if finish.finisherNames[6] == driver2.name:
-                driver2count[6] += 1
-            if finish.finisherNames[7] == driver2.name:
-                driver2count[7] += 1
-            if finish.finisherNames[8] == driver2.name:
-                driver2count[8] += 1
-            if finish.finisherNames[9] == driver2.name:
-                driver2count[9] += 1
+            for x in range(10):
+                if finish.finisherNames[x] == driver2.name:
+                    driver2count[x] += 1
             
+        # tiebreaking section
         for i in range(len(driver1count.items())):
             if driver1count[i] > driver2count[i]:
                 return driver1.name
@@ -131,6 +102,7 @@ class Season:
             if name == driver.name:
                 return driver
 
+        # if no name is found (usually as a reult of a tie return two names combined)
         brokenNames = []
         twoNameNames = list(combinations(name.split(' '), 2))
         threeNameNames = list(combinations(name.split(' '), 3))
@@ -143,15 +115,15 @@ class Season:
             fullName = x[0] + ' ' + x[1] + ' ' + x[2]
             brokenNames.append(fullName)
 
+        random.shuffle(brokenNames)
+
         for comboName in brokenNames:
             for driver in self.drivers:
                 if comboName.strip() == driver.name.strip():
                     return driver
 
         print('no driver found')
-        return -1
-
-        
+        return
 
 class SeasonDB:
     def __init__(self, seasons, drivers):
@@ -181,15 +153,17 @@ class SeasonDB:
         f = open(filename, 'w')
 
         for driver in self.champDict.items():
-            f.write(driver[0] + ' ' + str(str(driver[1]) + ' Pct: ' + str(round(driver[1]*100.0/len(seasons), 3))))
+            f.write(driver[0] + ' ' + str(str(driver[1]) + ' Pct: ' + str(round(driver[1]*100.0/len(seasons), 3)) + '\n'))
         
         f.close()
 
+start = time.time()
 spreadsheetData = open("ChrisFuchsData.csv")
 
 ### Arrays
 races = []
 drivers = []
+seasons = []
 
 ### Import driver finishes from spreadsheet
 rowIndex = 0
@@ -206,6 +180,7 @@ for row in spreadsheetData.readlines():
         del driverObject
     rowIndex = rowIndex + 1
 
+### Initialize every race (including sorting finishing order)
 spreadsheetData.seek(0)
 
 for event in range(len(spreadsheetData.readline().split(',')) - 3):
@@ -224,35 +199,28 @@ for event in range(len(spreadsheetData.readline().split(',')) - 3):
         for driver in deletableDrivers:
             if points == driver.pointsArray[event]:
                 midstep.append(driver.name)
-                deletableDrivers.remove(driver)     # wait does this actually work?????
+                deletableDrivers.remove(driver)
     
     raceObject.finisherNames = midstep
     races.append(raceObject)
     del raceObject
-    
-"""
-for race in races:
-    race.printRaceResults()
-"""
 
-# possibleSeasonCombinations = []
-seasons = []
-
+### Add each combinatiion of races (season) to the list of seasons
 for x in range(1, len(races) + 1):
     xLengthSeasons = list(combinations(races, x))   # list of tuples
-
-    # xLengthSeasons[0][0].printRaceResults()
-    # possibleSeasonCombinations.extend(xLengthSeasons)    
-    # break
 
     for combo in xLengthSeasons:
         seasons.append(Season(drivers, list(combo)))
 
-print(len(seasons))
+print('Total # of seasons: ' + str(len(seasons)))
 
+### Do calculations on each season
 print('Starting Databasing')
 database = SeasonDB(seasons, drivers)
 
+### Output
 print('Printing Results \n')
 database.printResults()
 database.printResultsToFile('results.txt')
+
+print('\nTime: ' + str((time.time() - start) / 60))
