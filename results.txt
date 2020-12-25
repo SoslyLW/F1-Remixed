@@ -1,8 +1,8 @@
-Lewis Hamilton 2039204 Pct: 97.237
-Valtteri Bottas 29043 Pct: 1.385
-Max Verstappen 26600 Pct: 1.268
-Charles Leclerc 1017 Pct: 0.048
-Sebastian Vettel 1287 Pct: 0.061
+Lewis Hamilton 2039206 Pct: 97.237
+Valtteri Bottas 29052 Pct: 1.385
+Max Verstappen 26599 Pct: 1.268
+Charles Leclerc 1009 Pct: 0.048
+Sebastian Vettel 1285 Pct: 0.061
 Carlos Sainz Jr. 0 Pct: 0.0
 Pierre Gasly 0 Pct: 0.0
 Alex Albon 0 Pct: 0.0
