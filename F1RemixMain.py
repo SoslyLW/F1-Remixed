@@ -3,9 +3,33 @@ import time
 from F1Classes import *
 
 ### Program Start
+dataIndex = 'F1RemixedData.csv'
+resultsIndex = 'results.txt'
+breakdownIndex = 'BreakdownBySeasonLength.csv'
+
+raceLocations2020 = ['AUT', 'STY', 'HUN', 'GBR', '70A', 'ESP', 'BEL', 'ITA', 'TUS', 'RUS', 'EIF', 'POR', 'EMI', 'TUR', 'BHR', 'SAK', 'UAE']
+raceLocations2019 = ['AUS', 'BHR', 'CHN', 'AZE', 'ESP', 'MON', 'CAN', 'FRA', 'AUT', 'GBR', 'GER', 'HUN', 'BEL', 'ITA', 'SGP', 'RUS', 'JAP', 'MEX', 'USA', 'BRA', 'UAE']
+raceLocations = []
+
+while True:
+    year = input('Select year of data to analyze (2019, 2020): ')
+
+    if year == '2019' or year == '2020':
+        dataIndex = year + dataIndex
+        resultsIndex = year + resultsIndex
+        breakdownIndex = year + breakdownIndex
+        if year == '2020':
+            raceLocations = raceLocations2020
+        elif year == '2019':
+            raceLocations = raceLocations2019
+        break
+    else:
+        print('Invalid Year\n')
+
+### Analysis Start
 start = time.time()
 print('Starting Analysis...')
-spreadsheetData = open("ChrisFuchsData.csv")
+spreadsheetData = open(dataIndex)
 
 ### Arrays
 races = []
@@ -63,19 +87,27 @@ print('Total # of seasons: ' + str(len(seasons)))
 
 ### Do calculations on each season
 print('Starting Databasing')
-database = SeasonDB(seasons, drivers)
+database = SeasonDB(seasons, drivers, resultsIndex, breakdownIndex)
+
+print('\nTime: ' + str((time.time() - start) / 60))
 
 ### Program Loop
 while True:
-    userInput = input('What type of breakdown would you like to see?\n[t] - Percentages of all possible seasons\n[b] - Breakdown by differing season lengths\n[q] - exit\n').lower().rstrip()
+    userInput = input('\nWhat type of breakdown would you like to see?\n[t] - Percentages of all possible seasons\n[b] - Breakdown by differing season lengths\n[d] - Breakdown by driver and season length\n[q] - exit\n').lower().rstrip()
 
     if userInput == 't':
-        database.printResults()
-        database.printResultsToFile('results.txt')
-        print('Results can be found in \'results.txt\'')
+        # database.printResults()
+        database.printResultsToFile(resultsIndex)
+        print('\nResults can be found in \'' + resultsIndex + '\'')
     elif userInput == 'b':
         database.fullLengthBreakdown(len(races))
-        print('Full percentage breakdown by season can be found in \'BreakdownBySeasonLength.csv\'')
+        print('\nFull percentage breakdown by season can be found in \'BreakdownBySeasonLength.csv\'')
+    elif userInput == 'd':
+        inputName = input('\nWhat driver would you like to breakdown?: ')
+        inputLength = input('What length of season would you like to look at?: ')
+        if inputLength == '':
+            inputLength = '0'
+        database.breakdownByDriverOneLength(inputName, int(inputLength), raceLocations)
     elif userInput == 'q' or userInput == 'e':
         break
     else:
@@ -87,7 +119,6 @@ while True:
 # database.printResults()
 # database.printResultsToFile('results.txt')
 
-# print('\nTime: ' + str((time.time() - start) / 60))
 
 # print()
 # database.breakdownByOneLength(9)

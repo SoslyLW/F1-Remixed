@@ -126,10 +126,12 @@ class Season:
         return
 
 class SeasonDB:
-    def __init__(self, seasons, drivers):
+    def __init__(self, seasons, drivers, resultsIndex, breakdownIndex):
         self.seasons = seasons
         self.drivers = drivers
         self.champDict = {}
+        self.breakdownLengthIndex = breakdownIndex
+        self.resultsIndex = resultsIndex
 
         self.initDict(self.champDict)
         self.calcChampionships()
@@ -166,40 +168,52 @@ class SeasonDB:
     def fullLengthBreakdown(self, seasonLength):
         print('Running Breakdown by Season Length', end='\n\n')
 
-        try:
-            f = open('BreakdownBySeasonLength.csv')
-        except:
-            topRow = ['Driver']
-            csvList = []
-            driverLists = []
+        topRow = ['Driver']
+        csvList = []
+        driverLists = []
 
-            for x in range(seasonLength):
-                csvList.append(self.breakdownByOneLength(x + 1))
-                topRow.append(str(x + 1))
+        for x in range(seasonLength):
+            csvList.append(self.breakdownByOneLength(x + 1))
+            topRow.append(str(x + 1))
 
-            for x in self.drivers:
-                driverLists.append([x.name])
-           
-            i = 1
-            for dicti in csvList:
-                for driver in dicti.items():
-                    for person in driverLists:
-                        if person[0] == driver[0]:
-                            person.append(round(driver[1] / math.comb(seasonLength, i) * 100, 3))
-                i += 1
-           
-            with open('BreakdownBySeasonLength.csv', 'w', newline='') as f:
-                w = csv.writer(f, delimiter=',')
+        for x in self.drivers:
+            driverLists.append([x.name])
+        
+        i = 1
+        for dicti in csvList:
+            for driver in dicti.items():
+                for person in driverLists:
+                    if person[0] == driver[0]:
+                        person.append(round(driver[1] / math.comb(seasonLength, i) * 100, 3))
+            i += 1
+        
+        with open(self.breakdownLengthIndex, 'w', newline='') as f:
+            w = csv.writer(f, delimiter=',')
 
-                w.writerow(topRow)
-                w.writerows(driverLists)
-            
+            w.writerow(topRow)
+            w.writerows(driverLists)
+
+    def breakdownByDriverOneLength(self, name, length, raceLocations):
+        racesInWinningSeason = []
+
+        for season in self.seasons:
+            if len(season.races) == int(length):
+                if season.champ.lower().rstrip() == name.lower().rstrip():
+                    racePositions = []
+                    for race in season.races:
+                        if raceLocations:
+                            racePositions.append(raceLocations[race.calendarPosition])
+                        else:
+                            racePositions.append(race.calendarPosition)
+                    
+                    racesInWinningSeason.append(racePositions)
+
+        if not racesInWinningSeason:
+            print('Invalid driver name or length (Hint: Carlos Sainz Jr. may be an issue)')
             return
         
-        f.close()
-        f = open('BreakdownBySeasonLength.csv')
-        self.printSeasonCSV(f)
-        f.close()
+        print(name + 'wins the WDC in the following seasons:')
+        print(racesInWinningSeason)
 
     def printResults(self):
         for driver in self.champDict.items():
