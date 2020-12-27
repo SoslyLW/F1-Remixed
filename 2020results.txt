@@ -1,6 +1,6 @@
-Lewis Hamilton      129431 Pct: 98.749
+Lewis Hamilton      129434 Pct: 98.751
 Valtteri Bottas     1391 Pct: 1.061
-Max Verstappen      192 Pct: 0.146
+Max Verstappen      189 Pct: 0.144
 Sergio Perez        34 Pct: 0.026
 Daniel Riccardo     0 Pct: 0.0
 Carlos Sainz        12 Pct: 0.009
