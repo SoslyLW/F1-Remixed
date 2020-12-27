@@ -101,12 +101,13 @@ while True:
         print('\nResults can be found in \'' + resultsIndex + '\'')
     elif userInput == 'b':
         database.fullLengthBreakdown(len(races))
-        print('\nFull percentage breakdown by season can be found in \'BreakdownBySeasonLength.csv\'')
+        print('\nFull percentage breakdown by season can be found in \'' + breakdownIndex + '\'')
     elif userInput == 'd':
         inputName = input('\nWhat driver would you like to breakdown?: ')
         inputLength = input('What length of season would you like to look at?: ')
         if inputLength == '':
             inputLength = '0'
+        
         database.breakdownByDriverOneLength(inputName, int(inputLength), raceLocations)
     elif userInput == 'q' or userInput == 'e':
         break

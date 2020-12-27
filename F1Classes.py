@@ -166,7 +166,7 @@ class SeasonDB:
         
 
     def fullLengthBreakdown(self, seasonLength):
-        print('Running Breakdown by Season Length', end='\n\n')
+        print('Running Breakdown by Season Length')
 
         topRow = ['Driver']
         csvList = []
