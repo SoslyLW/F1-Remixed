@@ -3,6 +3,7 @@ import time
 from F1Classes import *
 
 ### Program Start
+### Indexes
 dataIndex = 'F1RemixedData.csv'
 resultsIndex = 'results.txt'
 breakdownIndex = 'BreakdownBySeasonLength.csv'
@@ -11,6 +12,7 @@ raceLocations2020 = ['AUT', 'STY', 'HUN', 'GBR', '70A', 'ESP', 'BEL', 'ITA', 'TU
 raceLocations2019 = ['AUS', 'BHR', 'CHN', 'AZE', 'ESP', 'MON', 'CAN', 'FRA', 'AUT', 'GBR', 'GER', 'HUN', 'BEL', 'ITA', 'SGP', 'RUS', 'JAP', 'MEX', 'USA', 'BRA', 'UAE']
 raceLocations = []
 
+### User input loop
 while True:
     year = input('Select year of data to analyze (2019, 2020): ')
 
@@ -49,7 +51,7 @@ for row in spreadsheetData.readlines():
             driverObject.pointsArray.append(float(finish))
         drivers.append(driverObject)
         del driverObject
-    rowIndex = rowIndex + 1
+    rowIndex += 1
 
 ### Initialize every race (including sorting finishing order)
 spreadsheetData.seek(0)
@@ -78,7 +80,7 @@ for event in range(len(spreadsheetData.readline().split(',')) - 3):
 
 ### Add each combination of races (season) to the list of seasons
 for x in range(len(races)):
-    xLengthSeasons = list(combinations(races, x + 1))   # list of tuples
+    xLengthSeasons = list(combinations(races, x + 1))
 
     for combo in xLengthSeasons:
         seasons.append(Season(drivers, list(combo)))
@@ -89,12 +91,14 @@ print('Total # of seasons: ' + str(len(seasons)))
 print('Starting Databasing')
 database = SeasonDB(seasons, drivers, resultsIndex, breakdownIndex)
 
-print('\nTime: ' + str((time.time() - start) / 60))
+print('Time: ' + str((time.time() - start) / 60))
 
 ### Program Loop
 while True:
+    ### Input selection
     userInput = input('\nWhat type of breakdown would you like to see?\n[t] - Percentages of all possible seasons\n[b] - Breakdown by differing season lengths\n[d] - Breakdown by driver and season length\n[q] - exit\n').lower().rstrip()
 
+    ### Database functions
     if userInput == 't':
         # database.printResults()
         database.printResultsToFile(resultsIndex)
