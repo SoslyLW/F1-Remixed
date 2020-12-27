@@ -76,7 +76,7 @@ for event in range(len(spreadsheetData.readline().split(',')) - 3):
     races.append(raceObject)
     del raceObject
 
-### Add each combinatiion of races (season) to the list of seasons
+### Add each combination of races (season) to the list of seasons
 for x in range(len(races)):
     xLengthSeasons = list(combinations(races, x + 1))   # list of tuples
 
