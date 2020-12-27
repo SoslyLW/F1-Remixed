@@ -117,14 +117,3 @@ while True:
         break
     else:
         print('Not a valid input')
-
-
-# ### Output
-# print('Printing Results \n')
-# database.printResults()
-# database.printResultsToFile('results.txt')
-
-
-# print()
-# database.breakdownByOneLength(9)
-# database.fullLengthBreakdown(len(races))
