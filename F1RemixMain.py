@@ -50,10 +50,8 @@ rowIndex = 0
 for row in spreadsheetData.readlines():
     if rowIndex > 0:
         driverData = row.split(",")
-        #print(driverData)
         driverObject = Driver(driverData[1])
         for finish in driverData[2:-1]:
-            #print(finish)
             driverObject.pointsArray.append(float(finish))
         drivers.append(driverObject)
         del driverObject
@@ -106,7 +104,6 @@ while True:
 
     ### Database functions
     if userInput == 't':
-        # database.printResults()
         database.printResultsToFile(resultsIndex)
         print('\nResults can be found in \'' + resultsIndex + '\'')
     elif userInput == 'b':

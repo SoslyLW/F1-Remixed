@@ -9,12 +9,14 @@ class Driver:
         self.name = name
         self.pointsArray = []
 
+    # Prints info about driver
     def printDriver(self):
         print(self.name, end='')
         for finish in self.pointsArray:
             print(', ' + str(finish), end='')
         print()
 
+    # Returns points for driver from a given race
     def getPointsFromRaceIndex(self, index):
         return self.pointsArray[index]
 
@@ -23,6 +25,7 @@ class Race:
         self.calendarPosition = calendarPosition
         self.finisherNames = []
 
+    # Prints race results 
     def printRaceResults(self):
         print('Race ' + str(self.calendarPosition) + ':', end=' ')
         for finisher in self.finisherNames:
@@ -45,6 +48,7 @@ class Season:
         for driver in self.drivers:
             self.driverPoints[driver.name] = 0
 
+    # Imports standings points from all races in the custom season
     def importStandingsPoints(self):
         for race in self.races:
             for finisher in race.finisherNames:
@@ -54,6 +58,7 @@ class Season:
 
                         self.driverPoints[driver.name] += driverPointsTotal
     
+    # Determine the champion of the given season by finding the driver with the most points (applies tiebreak as necessary)
     def determineChamp(self, highestpoints = -1):
         champName = ''
 
@@ -66,6 +71,7 @@ class Season:
 
         self.champ = self.findDriverByName(champName).name
 
+    # Runs the tiebreak algorithm on two given drivers
     def tiebreak(self, driver1, driver2):
         ### Note: tiebreak only accounts for top ten finishes, not any finishes
         
@@ -88,7 +94,7 @@ class Season:
                 if finish.finisherNames[x] == driver2.name:
                     driver2count[x] += 1
             
-        # tiebreaking section
+        # tiebreaking section (based on most 1st places, 2nd places, etc.)
         for i in range(len(driver1count.items())):
             if driver1count[i] > driver2count[i]:
                 return driver1.name
@@ -97,12 +103,13 @@ class Season:
 
         return driver1.name + ' ' + driver2.name
 
+    # Finds a driver in the season by name input
     def findDriverByName(self, name):
         for driver in self.drivers:
             if name == driver.name:
                 return driver
 
-        # if no name is found (usually as a reult of a tie return two names combined)
+        # if no name is found (usually as a result of a tie return two names combined)
         brokenNames = []
         twoNameNames = list(combinations(name.split(' '), 2))
         threeNameNames = list(combinations(name.split(' '), 3))
@@ -140,6 +147,7 @@ class SeasonDB:
         for driver in self.drivers:
             dicti[driver.name] = 0
 
+    # Calculate total championships per driver accross all season lengths
     def calcChampionships(self):
         for season in self.seasons:
             if season.champ:
@@ -147,6 +155,7 @@ class SeasonDB:
                     if season.champ == driver.name:
                         self.champDict[driver.name] += 1
 
+    # Returns all champions in a dictionary for seasons of a given length
     def breakdownByOneLength(self, length):
         specificLengthSeasons = []
         specificLengthDict = {}
@@ -161,10 +170,9 @@ class SeasonDB:
                 if season.champ == driver.name:
                     specificLengthDict[driver.name] += 1
 
-        # self.printResultsFromDict(specificLengthDict, len(specificLengthSeasons))
         return specificLengthDict
-        
 
+    # Runs full breakdown by each possible season length
     def fullLengthBreakdown(self, seasonLength):
         print('Running Breakdown by Season Length')
 
@@ -193,6 +201,7 @@ class SeasonDB:
             w.writerow(topRow)
             w.writerows(driverLists)
 
+    # Runs breakdown for one driver and one season length
     def breakdownByDriverOneLength(self, name, length, raceLocations):
         racesInWinningSeason = []
 
@@ -215,10 +224,12 @@ class SeasonDB:
         print(name + ' wins the WDC in the following seasons:')
         print(racesInWinningSeason)
 
+    # Print results of total breakdown for each driver
     def printResults(self):
         for driver in self.champDict.items():
             print(driver[0] + ' ' + str(str(driver[1]) + ' Pct: ' + str(round(driver[1]*100.0/len(self.seasons), 3))))
 
+    # Print results of total breakdown for each driver into a file
     def printResultsToFile(self, filename):
         f = open(filename, 'w')
 
@@ -227,10 +238,12 @@ class SeasonDB:
         
         f.close()
 
+    # Print results of total breakdown for each driver from a given dictionary
     def printResultsFromDict(self, dicti, length):
         for driver in dicti.items():
             print(driver[0] + ' ' + str(str(driver[1]) + ' Pct: ' + str(round(driver[1]*100.0/length, 3))))
 
+    # Print the breakdown by different season lengths into a csv file
     def printSeasonCSV(self, f):
         for row in f.readlines():
             if type(row) == list:
