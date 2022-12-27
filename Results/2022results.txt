@@ -1,0 +1,22 @@
+Max Verstappen 4076957 Pct: 97.202
+Charles Leclerc 87352 Pct: 2.083
+Sergio Perez 23259 Pct: 0.555
+George Russell 1567 Pct: 0.037
+Carlos Sainz 4196 Pct: 0.1
+Lewis Hamilton 972 Pct: 0.023
+Lando Norris 0 Pct: 0.0
+Esteban Ocon 0 Pct: 0.0
+Fernando Alonso 0 Pct: 0.0
+Valtteri Bottas 0 Pct: 0.0
+Daniel Ricciardo 0 Pct: 0.0
+Sebastian Vettel 0 Pct: 0.0
+Kevin Magnussen 0 Pct: 0.0
+Pierre Gasly 0 Pct: 0.0
+Lance Stroll 0 Pct: 0.0
+Mick Schumacher 0 Pct: 0.0
+Yuki Tsunoda 0 Pct: 0.0
+Zhou Guanyu 0 Pct: 0.0
+Alex Albon 0 Pct: 0.0
+Nicolas Latifi 0 Pct: 0.0
+Nyck de Vries 0 Pct: 0.0
+Nico Hulkenberg 0 Pct: 0.0

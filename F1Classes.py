@@ -212,7 +212,7 @@ class SeasonDB:
             print('Invalid driver name or length (Hint: Carlos Sainz Jr. may be an issue)')
             return
         
-        print(name + 'wins the WDC in the following seasons:')
+        print(name + ' wins the WDC in the following seasons:')
         print(racesInWinningSeason)
 
     def printResults(self):

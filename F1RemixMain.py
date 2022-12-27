@@ -8,15 +8,17 @@ dataIndex = 'F1RemixedData.csv'
 resultsIndex = 'results.txt'
 breakdownIndex = 'BreakdownBySeasonLength.csv'
 
+raceLocations2022 = ['BHR', 'KSA', 'AUS', 'EMI', 'MIA', 'ESP', 'MON', 'AZE', 'CAN', 'GBR', 'AUT', 'FRA', 'HUN', 'BEL', 'NED', 'ITA', 'SGP', 'JPN', 'USA', 'MEX', 'BRA', 'UAE']
+raceLocations2021 = ['BHR', 'EMI', 'POR', 'ESP', 'MON', 'AZE', 'FRA', 'STY', 'AUT', 'GBR', 'HUN', 'BEL', 'NED', 'ITA', 'RUS', 'TUR', 'USA', 'MEX', 'BRA', 'QAT', 'KSA', 'UAE']
 raceLocations2020 = ['AUT', 'STY', 'HUN', 'GBR', '70A', 'ESP', 'BEL', 'ITA', 'TUS', 'RUS', 'EIF', 'POR', 'EMI', 'TUR', 'BHR', 'SAK', 'UAE']
-raceLocations2019 = ['AUS', 'BHR', 'CHN', 'AZE', 'ESP', 'MON', 'CAN', 'FRA', 'AUT', 'GBR', 'GER', 'HUN', 'BEL', 'ITA', 'SGP', 'RUS', 'JAP', 'MEX', 'USA', 'BRA', 'UAE']
+raceLocations2019 = ['AUS', 'BHR', 'CHN', 'AZE', 'ESP', 'MON', 'CAN', 'FRA', 'AUT', 'GBR', 'GER', 'HUN', 'BEL', 'ITA', 'SGP', 'RUS', 'JPN', 'MEX', 'USA', 'BRA', 'UAE']
 raceLocations = []
 
 ### User input loop
 while True:
-    year = input('Select year of data to analyze (2019, 2020): ')
+    year = input('Select year of data to analyze (2019, 2020, 2021, 2022): ')
 
-    if year == '2019' or year == '2020':
+    if year == '2019' or year == '2020' or year == '2021' or year == '2022':
         dataIndex = year + dataIndex
         resultsIndex = year + resultsIndex
         breakdownIndex = year + breakdownIndex
@@ -24,6 +26,10 @@ while True:
             raceLocations = raceLocations2020
         elif year == '2019':
             raceLocations = raceLocations2019
+        elif year == '2021':
+            raceLocations = raceLocations2021
+        elif year == '2022':
+            raceLocations = raceLocations2022
         break
     else:
         print('Invalid Year\n')
