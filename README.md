@@ -6,6 +6,8 @@ For example, sort by Sergio Perez in 2020 and 1 race seasons to see that if the 
 
 Note: In the case of a tie in the standings, the program will randomly select a champion. Additionally, the tiebreaking process only factors in top 10 finishes.
 
+**Pre-ran results for the total simulation and a breakdown by season can be found in the *Results* folder if you do not want to run the simulation again yourself.**
+
 For demonstration purposes, it is recommended to calculate the 2020 season as it has the fewest races and thus the shortest runtime (~30 seconds compared to ~8 minutes for 2019 and ~18 minutes for the others).
 
 ### Interesting Findings:
